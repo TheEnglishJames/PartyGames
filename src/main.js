@@ -70,7 +70,7 @@ function showSetup() {
   mount(app,
     el('section', { class: 'screen stack' },
       players.length >= MIN_PLAYERS && closeButton(),
-      el('h1', { class: 'logo' }, 'Pass the', el('br'), 'Phone'),
+      el('h1', { class: 'logo' }, 'Arianna &', el('br'), "Sebastian's", el('br'), 'Party Games'),
       el('p', { class: 'muted' }, `Who's playing? (${MIN_PLAYERS}–${MAX_PLAYERS})`),
       list,
       button('+ Add player', () => {
@@ -128,7 +128,7 @@ function showMenu() {
   mount(app,
     el('section', { class: 'screen stack' },
       el('header', { class: 'menu-head' },
-        el('h1', { class: 'logo small' }, 'Pass the Phone'),
+        el('h1', { class: 'logo small' }, "Arianna & Sebastian's", el('br'), 'Party Games'),
         el('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Settings', onclick: () => openScreen(showSettings) }, '⚙'),
       ),
       el('button', { class: 'players-chip', type: 'button', onclick: () => openScreen(showSetup) },

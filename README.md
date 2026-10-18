@@ -1,4 +1,4 @@
-# Pass the Phone
+# Arianna & Sebastian's Party Games
 
 Party games on one phone: pass it around. No server, no accounts, works offline once installed.
 
