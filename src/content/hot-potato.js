@@ -1,0 +1,21 @@
+// Each player names one thing in the category, then passes the phone.
+export default [
+  'Beer brands', 'Cocktails', 'Pizza toppings', 'Car brands', 'Countries in Europe', 'Capital cities', 'Things in a bathroom',
+  'Dog breeds', 'Things that are yellow', 'Fast food chains', 'Board games', 'Video games', 'Disney movies', 'Superheroes',
+  'Breakfast foods', 'Things you find at a beach', 'Ice cream flavours', 'Sports', 'Musical instruments', 'Body parts',
+  'Things in a kitchen', 'Clothing brands', 'Social media apps', 'Fruits', 'Vegetables', 'Things that fly', 'Things with wheels',
+  'Famous rappers', 'Boy bands', 'Christmas songs', 'Horror movies', 'Things that are cold', 'Things you can break',
+  'Excuses for being late', 'Words that rhyme with "cat"', 'Things in a fridge', 'Hairstyles', 'Things in a school',
+  'Jobs that need a uniform', 'Sea creatures', 'Insects', 'Things that smell bad', 'Things that are sticky', 'Cheeses',
+  'Things at a wedding', 'Pick-up lines', 'Things you say to a dog', 'Chocolate bars', 'Phone brands', 'Football clubs',
+  'Things that are round', 'Things you plug in', 'Words starting with "Z"', 'Words ending in "-ing"', 'Gym exercises',
+  'TV shows on Netflix', 'Cartoon characters', 'Things in a handbag', 'Kitchen utensils', 'Shoe types', 'Spices',
+  'Things that are red', 'Things in space', 'Olympic sports', 'Things at a festival', 'Things you do on a first date',
+  'Hangover cures', 'Drinking games', 'Spirits / hard liquor', 'Things you lose at a party', 'Song titles with a colour',
+  'Bad tattoo ideas', 'Things a pirate says', 'Celebrities with one name', 'Card games', 'Types of pasta', 'Sauces',
+  'Things that make noise', 'Famous paintings or painters', 'Things you shout at the TV', 'Types of dance', 'Weather words',
+  'Things in a toolbox', 'Things that are fake', 'Fairy tale characters', 'Things in a hospital', 'Airlines',
+  'Things that are hot', 'Desserts', 'Dinosaurs', 'Things with buttons', 'Famous duos', 'Emojis', 'Things you can ride',
+  'Reasons to break up', 'Things you would take to a desert island', 'Bad smells at a party', 'Words that mean "drunk"',
+  'Things in a supermarket', 'Halloween costumes', 'Things you do in bed (keep it clean… or not)',
+];

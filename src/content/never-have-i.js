@@ -1,0 +1,32 @@
+// "Never have I ever …"
+export default {
+  mild: [
+    'broken a bone', 'been on TV', 'lied to get out of plans', 'fallen asleep in class or at work', 'eaten food off the floor',
+    'pretended to be sick', 'been in a car accident', 'cried at a Disney movie', 'gone a whole day without my phone',
+    'sung karaoke', 'cheated in a game', 'locked myself out', 'ghosted someone', 'stolen something', 'been on a blind date',
+    'dyed my hair a crazy colour', 'peed in a pool', 'missed a flight', 'been kicked out of a bar or club',
+    'had a crush on a teacher', 'laughed so hard I cried', 'Googled myself', 'talked my way out of a ticket',
+    'slept in a car', 'lied about my age', 'broken something and blamed someone else', 'stalked an ex online',
+    'fallen down in public', 'texted the wrong person', 'been to a festival', 'forgotten someone\'s name mid-conversation',
+    'regifted a present', 're-worn clothes without washing them', 'eaten a whole pizza by myself', 'skipped school',
+    'had a hangover that lasted two days', 'thrown up in a taxi', 'been arrested', 'snooped through someone\'s phone',
+    'lied in this game', 'binged a whole series in one weekend', 'been stung by a jellyfish', 'gotten a tattoo',
+    'left a party without saying goodbye', 'done a walk of shame', 'pretended to know a song', 'cut my own hair',
+    'sent a voice message longer than 5 minutes', 'cried on public transport', 'fallen asleep at a party',
+    'faked liking a gift', 'been dumped', 'dumped someone', 'had a fake ID', 'been to a casino', 'eaten something expired on purpose',
+    'danced on a table', 'got lost in a foreign country', 'pretended to be on the phone to avoid someone', 'been on a road trip',
+  ],
+  spicy: [
+    'had a one-night stand', 'kissed someone in this room', 'sent a nude', 'had sex in a public place', 'faked an orgasm',
+    'been caught having sex', 'had a friends-with-benefits', 'slept with someone on the first date', 'had a threesome',
+    'made out with a stranger', 'gone skinny dipping', 'used a dating app while in a relationship', 'cheated on someone',
+    'been cheated on', 'had a crush on a friend\'s partner', 'slept with an ex', 'had sex in a car',
+    'watched porn with someone else', 'been to a strip club', 'used handcuffs', 'had a sex dream about someone here',
+    'kissed someone of the same sex', 'woken up not knowing where I was', 'lied about my body count',
+    'joined the mile-high club', 'had sex at a party', 'hooked up with a coworker', 'gone commando to an event',
+    'sexted someone I never met', 'had a walk of shame in last night\'s outfit', 'flirted to get a free drink',
+    'been in a love triangle', 'kissed more than one person in one night', 'had sex outdoors', 'had a sugar daddy or mommy',
+    'been in an open relationship', 'stripped for someone', 'role-played in bed', 'had sex in my parents\' house',
+    'forgotten the name of someone I slept with',
+  ],
+};

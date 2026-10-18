@@ -1,0 +1,33 @@
+// "Who's most likely to …"
+export default {
+  mild: [
+    'become famous', 'survive a zombie apocalypse', 'cry at a movie', 'get lost in their own city', 'forget their own birthday',
+    'win the lottery and lose the ticket', 'become a millionaire', 'end up on reality TV', 'adopt ten cats', 'start a cult',
+    'fall asleep at a party', 'laugh at the wrong moment', 'eat something off the floor', 'get arrested for something stupid',
+    'move to another country on a whim', 'talk their way out of a speeding ticket', 'lose their phone tonight',
+    'spend all their money in one day', 'become a TikTok star', 'run a marathon', 'be late to their own wedding',
+    'get scammed online', 'talk to animals', 'win a hot dog eating contest', 'be the first to die in a horror movie',
+    'still be at the party when the sun comes up', 'start a fight in a club', 'sing karaoke without being asked',
+    'befriend the bouncer', 'order for the whole table', 'burn water', 'send a text to the wrong person',
+    'secretly be a spy', 'cheat at board games', 'become president', 'get a tattoo they regret', 'forget where they parked',
+    'go viral for something embarrassing', 'binge an entire series in one day', 'quit their job dramatically',
+    'join the circus', 'still be using their ex\'s Netflix', 'be on their phone right now', 'fall for a scam call',
+    'be secretly rich', 'cry when drunk', 'dance on a table', 'befriend a celebrity', 'eat the last slice without asking',
+    'pretend to be sick to skip work', 'get stuck in a revolving door', 'show up in pyjamas', 'own too many shoes',
+    'wake up in another city', 'organise the next party', 'be the worst driver', 'lie about their age',
+    'go to bed first tonight', 'be the funniest when drunk', 'have a secret talent',
+  ],
+  spicy: [
+    'hook up with someone tonight', 'have a secret OnlyFans', 'text their ex tonight', 'have a one-night stand on holiday',
+    'kiss someone in this room', 'have the weirdest kink', 'get caught having sex', 'date two people at once',
+    'sleep with a coworker', 'have a friends-with-benefits situation', 'send a nude to the wrong person',
+    'go skinny dipping tonight', 'have had sex in a public place', 'get back with their ex', 'lie about their body count',
+    'have a crush on someone here', 'fake an orgasm', 'join the mile-high club', 'have a sex tape', 'try a threesome',
+    'swipe right on everyone', 'flirt their way out of trouble', 'walk of shame home this weekend', 'go to a strip club',
+    'stalk their ex on Instagram', 'marry someone they met in Vegas', 'have a sugar daddy or sugar mommy',
+    'be the loudest in bed', 'have read someone\'s private messages', 'kiss a stranger tonight',
+    'have the most embarrassing search history', 'cheat on a partner', 'get dumped by text', 'sleep with a friend\'s ex',
+    'take their clothes off at a party', 'have had sex with someone whose name they never knew', 'own handcuffs',
+    'make out with someone in a club toilet', 'have a celebrity sex dream', 'drunk-dial a crush',
+  ],
+};
