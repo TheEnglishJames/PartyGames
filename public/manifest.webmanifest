@@ -1,7 +1,7 @@
 {
-  "name": "Arianna & Sebastian's Party Games",
-  "short_name": "A&S Party",
-  "description": "Party games on one phone.",
+  "name": "A&S Wedding Games",
+  "short_name": "A&S Wedding",
+  "description": "Wedding weekend games on one phone.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

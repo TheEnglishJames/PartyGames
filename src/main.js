@@ -122,7 +122,8 @@ function showSetup() {
   mount(app,
     el('section', { class: 'screen stack' },
       players.length >= MIN_PLAYERS && closeButton(),
-      el('h1', { class: 'logo' }, 'Arianna &', el('br'), "Sebastian's", el('br'), 'Party Games'),
+      el('h1', { class: 'logo' }, 'A&S Wedding', el('br'), 'Games'),
+      installTip(),
       el('h2', { class: 'setup-title' }, `Who's playing? (${MIN_PLAYERS}–${MAX_PLAYERS})`),
       el('p', { class: 'muted tiny' }, 'Type a name and press Enter for the next one. Tap ✕ to remove someone.'),
       list,
@@ -191,6 +192,24 @@ function settingsTip() {
   return tip;
 }
 
+const isInstalled = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+
+// Shown on the first launch in a browser tab, until dismissed: how to add the app to the home screen.
+function installTip() {
+  if (isInstalled() || loadSeen('install-tip')) return null;
+  const tip = el('div', { class: 'tip' },
+    el('strong', {}, '📲 Put it on your home screen'),
+    el('ul', {},
+      el('li', {}, el('b', {}, 'iPhone (Safari):'), ' tap Share, then "Add to Home Screen".'),
+      el('li', {}, el('b', {}, 'Android (Chrome):'), ' open the three-dot menu, then "Install app" or "Add to Home screen".'),
+      el('li', {}, el('b', {}, 'Computer (Chrome, Edge):'), ' click the install icon in the address bar.'),
+    ),
+    el('p', { class: 'muted tiny' }, 'Then it opens full-screen like an app and works offline.'),
+    button('Got it', () => { markSeen('install-tip'); tip.remove(); }, 'primary'),
+  );
+  return tip;
+}
+
 const LONG_PRESS_MS = 450;
 
 // Tap opens the game; press and hold shows its rules in a quick popup.
@@ -255,7 +274,7 @@ function showMenu() {
   mount(app,
     el('section', { class: 'screen stack' },
       el('header', { class: 'menu-head' },
-        el('h1', { class: 'logo small' }, "Arianna & Sebastian's", el('br'), 'Party Games'),
+        el('h1', { class: 'logo small' }, 'A&S Wedding', el('br'), 'Games'),
         el('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Settings', onclick: () => openScreen(showSettings) }, '⚙'),
       ),
       el('button', { class: 'players-chip', type: 'button', onclick: () => openScreen(showSetup) },
