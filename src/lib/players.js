@@ -1,3 +1,5 @@
+import { shuffle } from './deck.js';
+
 export const MIN_PLAYERS = 3;
 export const MAX_PLAYERS = 10;
 
@@ -33,4 +35,18 @@ export function cleanNames(names) {
     }
   }
   return out;
+}
+
+// Random teams as even as possible. Players sharing a crowd (e.g. "came with
+// the bride") are spread across teams, so the groups actually mix.
+export function splitTeams(players, count = 2, crowdOf = () => 0, rng = Math.random) {
+  const crowds = new Map();
+  for (const p of shuffle(players, rng)) {
+    const c = crowdOf(p);
+    if (!crowds.has(c)) crowds.set(c, []);
+    crowds.get(c).push(p);
+  }
+  const teams = Array.from({ length: count }, () => []);
+  [...crowds.values()].flat().forEach((p, i) => teams[i % count].push(p));
+  return teams;
 }

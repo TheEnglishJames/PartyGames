@@ -34,3 +34,22 @@ export function loadPlayers() {
 export function savePlayers(players) {
   write('ptp.players', players);
 }
+
+// Secret Missions run all weekend, so the dealt missions survive closing the app.
+export function loadMissions() {
+  const missions = read('ptp.missions', null);
+  return missions && typeof missions === 'object' && !Array.isArray(missions) ? missions : null;
+}
+
+export function saveMissions(missions) {
+  write('ptp.missions', missions);
+}
+
+// First-launch hints the player has dismissed, e.g. the settings tip on the menu.
+export function loadSeen(key) {
+  return read(`ptp.seen.${key}`, false) === true;
+}
+
+export function markSeen(key) {
+  write(`ptp.seen.${key}`, true);
+}

@@ -184,6 +184,56 @@ h2 {
 .name-row {
   display: flex;
   gap: 10px;
+  align-items: center;
+}
+
+.setup-title {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.name-num {
+  width: 28px;
+  flex: none;
+  text-align: center;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.remove-btn {
+  appearance: none;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid var(--danger);
+  background: transparent;
+  color: var(--danger);
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.remove-btn:active {
+  background: var(--danger);
+  color: var(--text);
+}
+
+.remove-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.btn.add-player {
+  background: var(--surface);
+  border: 2px solid var(--ok);
+  color: var(--ok);
+}
+
+.btn.add-player:disabled {
+  border-color: var(--surface-2);
+  color: var(--muted);
 }
 
 input[type='text'] {
@@ -221,12 +271,23 @@ input[type='text']:focus {
   font: inherit;
   font-size: 0.95rem;
   text-align: left;
-  padding: 12px 16px;
-  border-radius: 999px;
+  padding: 12px 18px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.players-names {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  cursor: pointer;
+}
+
+.players-edit {
+  color: var(--ok);
+  font-weight: 800;
 }
 
 .tiles {
@@ -799,4 +860,30 @@ input[type='text'] {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* First-launch settings tip on the menu */
+.tip {
+  background: var(--surface);
+  border: 2px solid var(--surface-2);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tip ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.tip b {
+  color: var(--text);
 }

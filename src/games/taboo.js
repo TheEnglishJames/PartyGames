@@ -1,16 +1,10 @@
 import { el, button, mount, drinkNote, keepAwake } from '../lib/ui.js';
-import { sessionDeck, shuffle } from '../lib/deck.js';
+import { sessionDeck } from '../lib/deck.js';
+import { splitTeams } from '../lib/players.js';
 import { sfx, vibrate } from '../lib/sound.js';
 import cards from '../content/taboo.js';
 
 const ROUND_SECONDS = 60;
-
-// Two teams as even as possible, randomly assigned.
-export function splitTeams(players, rng = Math.random) {
-  const mixed = shuffle(players, rng);
-  const half = Math.ceil(mixed.length / 2);
-  return [mixed.slice(0, half), mixed.slice(half)];
-}
 
 export default {
   id: 'taboo',

@@ -1,6 +1,6 @@
 import './style.css';
 import { el, button, mount } from './lib/ui.js';
-import { loadPlayers, savePlayers, loadSettings, saveSettings } from './lib/storage.js';
+import { loadPlayers, savePlayers, loadSettings, saveSettings, loadSeen, markSeen } from './lib/storage.js';
 import { cleanNames, MIN_PLAYERS, MAX_PLAYERS } from './lib/players.js';
 import { unlockAudio, setSoundEnabled } from './lib/sound.js';
 import imposter from './games/imposter.js';
@@ -18,9 +18,17 @@ import wavelength from './games/wavelength.js';
 import fibbage from './games/fibbage.js';
 import taboo from './games/taboo.js';
 import kingsCup from './games/kings-cup.js';
+import whoWroteIt from './games/who-wrote-it.js';
+import hotSeat from './games/hot-seat.js';
+import deepTalk from './games/deep-talk.js';
+import secretMissions from './games/secret-missions.js';
+import shoeGame from './games/shoe-game.js';
+import werewolf from './games/werewolf.js';
+import teamSplitter from './games/team-splitter.js';
 
 const SECTIONS = [
   { title: '🕵️ Bluff & Guess', games: [imposter, headsUp, taboo, wavelength, fibbage] },
+  { title: '💍 Get to Know Each Other', games: [whoWroteIt, hotSeat, deepTalk, secretMissions, shoeGame, werewolf, teamSplitter] },
   { title: '💬 Talk & Confess', games: [mostLikely, neverHaveI, truthOrDare, wouldYouRather, paranoia] },
   { title: '⚡ Action', games: [hotPotato, fiveSeconds, stopAtTen, spinTheBottle] },
   { title: '🍺 Drinking', games: [kingsCup] },
@@ -62,22 +70,52 @@ function showSetup() {
   const list = el('div', { class: 'stack' });
   const error = el('p', { class: 'error', role: 'alert' });
 
+  const addButton = button('', () => addPlayer(), 'add-player');
+
+  function addPlayer() {
+    if (names.length >= MAX_PLAYERS) return;
+    names.push('');
+    renderList();
+    list.lastChild.querySelector('input').focus();
+  }
+
   function renderList() {
+    const canRemove = names.length > MIN_PLAYERS;
     list.replaceChildren(...names.map((name, i) =>
       el('div', { class: 'name-row' },
+        el('span', { class: 'name-num' }, i + 1),
         el('input', {
           type: 'text',
           value: name,
           placeholder: `Player ${i + 1}`,
           maxlength: 20,
           autocomplete: 'off',
+          enterkeyhint: 'next',
           'aria-label': `Player ${i + 1} name`,
           oninput: (e) => { names[i] = e.target.value; },
+          // Enter jumps to the next name, or adds a new row after the last one.
+          onkeydown: (e) => {
+            if (e.key !== 'Enter') return;
+            e.preventDefault();
+            const next = list.children[i + 1];
+            if (next) next.querySelector('input').focus();
+            else if (names.length < MAX_PLAYERS) addPlayer();
+          },
         }),
-        names.length > MIN_PLAYERS &&
-          el('button', { class: 'icon-btn', type: 'button', 'aria-label': `Remove player ${i + 1}`, onclick: () => { names.splice(i, 1); renderList(); } }, '−'),
+        el('button', {
+          class: 'remove-btn',
+          type: 'button',
+          disabled: !canRemove,
+          title: canRemove ? `Remove ${name || `player ${i + 1}`}` : `At least ${MIN_PLAYERS} players`,
+          'aria-label': `Remove ${name || `player ${i + 1}`}`,
+          onclick: () => { names.splice(i, 1); renderList(); },
+        }, '✕'),
       ),
     ));
+    addButton.textContent = names.length < MAX_PLAYERS
+      ? `＋ Add player (${names.length}/${MAX_PLAYERS})`
+      : `Full — ${MAX_PLAYERS} players max`;
+    addButton.disabled = names.length >= MAX_PLAYERS;
   }
   renderList();
 
@@ -85,15 +123,10 @@ function showSetup() {
     el('section', { class: 'screen stack' },
       players.length >= MIN_PLAYERS && closeButton(),
       el('h1', { class: 'logo' }, 'Arianna &', el('br'), "Sebastian's", el('br'), 'Party Games'),
-      el('p', { class: 'muted' }, `Who's playing? (${MIN_PLAYERS}–${MAX_PLAYERS})`),
+      el('h2', { class: 'setup-title' }, `Who's playing? (${MIN_PLAYERS}–${MAX_PLAYERS})`),
+      el('p', { class: 'muted tiny' }, 'Type a name and press Enter for the next one. Tap ✕ to remove someone.'),
       list,
-      button('+ Add player', () => {
-        if (names.length < MAX_PLAYERS) {
-          names.push('');
-          renderList();
-          list.lastChild.querySelector('input').focus();
-        }
-      }, 'ghost'),
+      addButton,
       error,
       button("Let's go", () => {
         const clean = cleanNames(names);
@@ -130,11 +163,30 @@ function showSettings() {
     el('section', { class: 'screen stack' },
       closeButton(),
       el('h1', {}, 'Settings'),
-      toggle('drinking', 'Drinking rules', 'Adds who-drinks-what to results'),
-      toggle('spicy', 'Spicy mode', 'Adds 18+ cards: sex, embarrassment, exes'),
-      toggle('sound', 'Sound & vibration', ''),
+      el('p', { class: 'muted' }, 'These apply to every game and are saved on this phone.'),
+      toggle('drinking', 'Drinking rules', 'Adds who-drinks-what to results. Off: points and dares instead'),
+      toggle('spicy', 'Spicy mode', 'Adds 18+ cards: sex, embarrassment, exes. Off by default'),
+      toggle('sound', 'Sound & vibration', 'Timers, buzzers and reveals'),
     ),
   );
+}
+
+// Shown on the menu until dismissed, so first-time players find the settings.
+function settingsTip() {
+  if (loadSeen('settings-tip')) return null;
+  const tip = el('div', { class: 'tip' },
+    el('strong', {}, '👋 New here? Set up your night in ⚙ Settings:'),
+    el('ul', {},
+      el('li', {}, '🌶 ', el('b', {}, 'Spicy mode'), ' adds 18+ cards (sex, embarrassment, exes). Off by default.'),
+      el('li', {}, '🍺 ', el('b', {}, 'Drinking rules'), ' add who-drinks-what. Turn off for a sober crowd.'),
+      el('li', {}, '🔊 ', el('b', {}, 'Sound & vibration'), ' for timers and buzzers.'),
+    ),
+    el('div', { class: 'btn-row' },
+      button('Open settings', () => { markSeen('settings-tip'); openScreen(showSettings); }, 'primary'),
+      button('Got it', () => { markSeen('settings-tip'); tip.remove(); }),
+    ),
+  );
+  return tip;
 }
 
 function showMenu() {
@@ -146,8 +198,10 @@ function showMenu() {
         el('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Settings', onclick: () => openScreen(showSettings) }, '⚙'),
       ),
       el('button', { class: 'players-chip', type: 'button', onclick: () => openScreen(showSetup) },
-        `👥 ${players.join(', ')}`, el('span', { class: 'muted' }, ' · edit'),
+        el('span', { class: 'players-names' }, `👥 ${players.length} players: ${players.join(', ')}`),
+        el('span', { class: 'players-edit' }, '✏️ Add or remove players'),
       ),
+      settingsTip(),
       SECTIONS.map(({ title, games }) => [
         el('h2', { class: 'section-title' }, title),
         el('div', { class: 'tiles' },

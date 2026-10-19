@@ -4,9 +4,10 @@ import { classifyTilt } from '../src/games/heads-up.js';
 import { rankByDistance } from '../src/games/stop-at-ten.js';
 import { wavelengthScore } from '../src/games/wavelength.js';
 import { buildOptions, normalize } from '../src/games/fibbage.js';
-import { splitTeams } from '../src/games/taboo.js';
 import { buildDeck, KINGS } from '../src/games/kings-cup.js';
-import { pickImposters, imposterCount, nextPlayer, cleanNames } from '../src/lib/players.js';
+import { assignRoles, winner } from '../src/games/werewolf.js';
+import { dealMissions } from '../src/games/secret-missions.js';
+import { pickImposters, imposterCount, nextPlayer, cleanNames, splitTeams } from '../src/lib/players.js';
 
 describe('createDeck', () => {
   it('draws every item once before repeating', () => {
@@ -128,6 +129,52 @@ describe('splitTeams', () => {
   });
 });
 
+describe('splitTeams with crowds', () => {
+  it('makes n even teams and spreads each crowd across them', () => {
+    const players = ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1'];
+    for (let run = 0; run < 50; run++) {
+      const teams = splitTeams(players, 2, (p) => p[0]);
+      expect(teams.map((t) => t.length).sort()).toEqual([4, 5]);
+      for (const t of teams) {
+        expect(t.filter((p) => p[0] === 'A')).toHaveLength(2);
+        expect(t.filter((p) => p[0] === 'B')).toHaveLength(2);
+      }
+      const three = splitTeams(players, 3);
+      expect(three.map((t) => t.length)).toEqual([3, 3, 3]);
+      expect(three.flat().sort()).toEqual([...players].sort());
+    }
+  });
+});
+
+describe('werewolf', () => {
+  it('deals the right roles for each group size', () => {
+    for (let n = 3; n <= 10; n++) {
+      const roles = assignRoles(n);
+      const count = (r) => roles.filter((x) => x === r).length;
+      expect(roles).toHaveLength(n);
+      expect(count('wolf')).toBe(n >= 7 ? 2 : 1);
+      expect(count('seer')).toBe(n >= 4 ? 1 : 0);
+      expect(count('doctor')).toBe(n >= 5 ? 1 : 0);
+    }
+  });
+
+  it('ends when wolves are gone or equal the rest', () => {
+    const roles = ['wolf', 'seer', 'villager', 'villager'];
+    expect(winner(roles, new Set([0, 1, 2, 3]))).toBe(null);
+    expect(winner(roles, new Set([0, 1]))).toBe('wolves');
+    expect(winner(roles, new Set([1, 2]))).toBe('village');
+  });
+});
+
+describe('dealMissions', () => {
+  it('gives every player a different mission', () => {
+    const players = ['A', 'B', 'C', 'D'];
+    const missions = dealMissions(players, createDeck(['m1', 'm2', 'm3', 'm4', 'm5']).draw);
+    expect(Object.keys(missions)).toEqual(players);
+    expect(new Set(Object.values(missions)).size).toBe(4);
+  });
+});
+
 describe("King's Cup deck", () => {
   it('has 52 unique cards with 4 kings', () => {
     const deck = buildDeck();
@@ -145,7 +192,13 @@ describe('content', () => {
     const wyr = (await import('../src/content/would-you-rather.js')).default;
     for (const card of taboo) expect(card).toHaveLength(6);
     for (const f of fibbage) expect(f.q).toContain('___');
-    for (const p of [...pairs, ...spectra, ...wyr.mild, ...wyr.spicy]) expect(p).toHaveLength(2);
+    const hotSeat = (await import('../src/content/hot-seat.js')).default;
+    const missions = (await import('../src/content/secret-missions.js')).default;
+    const deepTalk = (await import('../src/content/deep-talk.js')).default;
+    for (const p of [...pairs, ...spectra, ...wyr.mild, ...wyr.spicy, ...hotSeat.mild, ...hotSeat.spicy]) expect(p).toHaveLength(2);
+    // Secret Missions needs a different mission for each of up to 10 players.
+    expect(missions.mild.length).toBeGreaterThanOrEqual(10);
+    for (const questions of Object.values(deepTalk)) expect(questions.length).toBeGreaterThan(0);
   });
 });
 
