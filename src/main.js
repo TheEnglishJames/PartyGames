@@ -175,8 +175,10 @@ function showSettings() {
 function settingsTip() {
   if (loadSeen('settings-tip')) return null;
   const tip = el('div', { class: 'tip' },
-    el('strong', {}, '👋 New here? Set up your night in ⚙ Settings:'),
+    el('strong', {}, '👋 New here? Quick tips:'),
     el('ul', {},
+      el('li', {}, '👆 ', el('b', {}, 'Press and hold'), ' any game to see what it\'s about. Tap it to play.'),
+      el('li', {}, '⚙ In ', el('b', {}, 'Settings'), ' you can set up your night:'),
       el('li', {}, '🌶 ', el('b', {}, 'Spicy mode'), ' adds 18+ cards (sex, embarrassment, exes). Off by default.'),
       el('li', {}, '🍺 ', el('b', {}, 'Drinking rules'), ' add who-drinks-what. Turn off for a sober crowd.'),
       el('li', {}, '🔊 ', el('b', {}, 'Sound & vibration'), ' for timers and buzzers.'),
@@ -187,6 +189,65 @@ function settingsTip() {
     ),
   );
   return tip;
+}
+
+const LONG_PRESS_MS = 450;
+
+// Tap opens the game; press and hold shows its rules in a quick popup.
+function gameTile(game) {
+  let timer = null;
+  let longPressed = false;
+  let start = null;
+  const cancel = () => { clearTimeout(timer); timer = null; };
+
+  return el('button', {
+    class: 'tile',
+    type: 'button',
+    style: { '--accent': game.color },
+    onpointerdown: (e) => {
+      longPressed = false;
+      start = [e.clientX, e.clientY];
+      cancel();
+      timer = setTimeout(() => { longPressed = true; showQuickInfo(game); }, LONG_PRESS_MS);
+    },
+    // Scrolling the menu is not a long press.
+    onpointermove: (e) => {
+      if (timer && Math.hypot(e.clientX - start[0], e.clientY - start[1]) > 10) cancel();
+    },
+    onpointerup: cancel,
+    onpointerleave: cancel,
+    onpointercancel: cancel,
+    oncontextmenu: (e) => e.preventDefault(),
+    onclick: () => {
+      if (longPressed) longPressed = false;
+      else openScreen(() => showRules(game));
+    },
+  },
+    el('span', { class: 'tile-emoji' }, game.emoji),
+    el('span', { class: 'tile-title' }, game.title),
+  );
+}
+
+function showQuickInfo(game) {
+  navigator.vibrate?.(15);
+  const dialog = el('dialog', {
+    class: 'quick-info',
+    style: { '--accent': game.color },
+    onclose: () => dialog.remove(),
+    // Tapping the backdrop (outside the box) closes it.
+    onclick: (e) => { if (e.target === dialog) dialog.close(); },
+  },
+    el('div', { class: 'stack' },
+      el('div', { class: 'quick-info-head' }, el('span', { class: 'tile-emoji' }, game.emoji), el('h2', {}, game.title)),
+      el('p', {}, game.rules),
+      el('div', { class: 'btn-row' },
+        button('Close', () => dialog.close()),
+        button('Play', () => { dialog.close(); openScreen(() => showRules(game)); }, 'primary'),
+      ),
+    ),
+  );
+  app.append(dialog);
+  dialog.showModal();
 }
 
 function showMenu() {
@@ -205,19 +266,10 @@ function showMenu() {
       SECTIONS.map(({ title, games }) => [
         el('h2', { class: 'section-title' }, title),
         el('div', { class: 'tiles' },
-          games.map((game) =>
-            el('button', {
-              class: 'tile',
-              type: 'button',
-              style: { '--accent': game.color },
-              onclick: () => openScreen(() => showRules(game)),
-            },
-              el('span', { class: 'tile-emoji' }, game.emoji),
-              el('span', { class: 'tile-title' }, game.title),
-            ),
-          ),
+          games.map((game) => gameTile(game)),
         ),
       ]),
+      el('p', { class: 'muted tiny' }, 'Tip: press and hold a game for a quick explanation.'),
       el('p', { class: 'muted tiny' },
         settings.drinking ? '🍺 Drinking on' : 'Drinking off', ' · ',
         settings.spicy ? '🌶 Spicy' : 'Mild',
