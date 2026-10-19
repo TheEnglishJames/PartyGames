@@ -2,7 +2,7 @@
 
 Party games on one phone: pass it around. No server, no accounts, works offline once installed.
 
-Games: Imposter · Hot Potato · Heads Up · Most Likely To · Truth or Dare · Never Have I Ever
+Games: Imposter (+ Undercover mode) · Heads Up · Taboo · Wavelength · Fibbage · Most Likely To · Never Have I Ever · Truth or Dare · Would You Rather · Paranoia · Hot Potato · 5 Second Rule · Stop at 10 · Spin the Bottle · King's Cup
 
 ## Develop
 

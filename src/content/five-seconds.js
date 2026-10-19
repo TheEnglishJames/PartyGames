@@ -1,0 +1,20 @@
+// "Name 3 …" in five seconds.
+export default [
+  'types of cheese', 'beer brands', 'Disney princesses', 'car brands', 'things in a fridge', 'capital cities', 'cocktails',
+  'Harry Potter characters', 'football players', 'things that are yellow', 'fast food chains', 'board games', 'superheroes',
+  'breakfast foods', 'fruits', 'vegetables', 'dog breeds', 'insects', 'body parts below the waist', 'pasta shapes',
+  'things you find in a bathroom', 'Beatles songs', 'boy bands', 'Taylor Swift songs', 'cartoon characters', 'video games',
+  'things that fly', 'things with wheels', 'musical instruments', 'Olympic sports', 'things you take on holiday', 'spices',
+  'social media apps', 'sea creatures', 'ice cream flavours', 'Star Wars characters', 'countries in Africa', 'countries in Asia',
+  'US states', 'famous rappers', 'chocolate brands', 'things that are cold', 'things that are hot', 'shoe types', 'hairstyles',
+  'things you say when you stub your toe', 'excuses for being late', 'pick-up lines', 'kinds of dance', 'famous painters',
+  'things in a school', 'jobs that need a uniform', 'horror movies', 'Christmas songs', 'words that rhyme with "fun"',
+  'things in a handbag', 'kitchen utensils', 'things that are round', 'things that are sticky', 'Pixar movies',
+  'things you do on a first date', 'hangover cures', 'drinking games', 'spirits', 'wine types', 'emojis you use most',
+  'famous duos', 'reasons to break up', 'reality TV shows', 'James Bond actors', 'things that smell good', 'things that smell bad',
+  'yoga poses', 'gym exercises', 'Simpsons characters', 'Friends characters', 'things you plug in', 'types of trees', 'flowers',
+  'birds', 'things in space', 'planets', 'famous inventors', 'Marvel movies', 'things you shout at a football match',
+  'words that mean "drunk"', 'things at a wedding', 'things at a festival', 'things you lose at a party', 'airlines',
+  'phone brands', 'clothing brands', 'cereals', 'sauces', 'card games','things you should never say on a date',
+  'things you would rescue from a fire', 'bad tattoo ideas', 'famous ships', 'things in a toolbox', 'baby animal names',
+];

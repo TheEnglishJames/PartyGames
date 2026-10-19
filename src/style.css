@@ -235,11 +235,17 @@ input[type='text']:focus {
   gap: 14px;
 }
 
+.section-title {
+  font-size: 1.05rem;
+  color: var(--muted);
+  margin: 10px 0 -2px;
+}
+
 .tile {
   appearance: none;
   border: 0;
   cursor: pointer;
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 3;
   border-radius: 28px;
   background: var(--accent);
   color: #14101f;
@@ -259,7 +265,7 @@ input[type='text']:focus {
 }
 
 .tile-emoji {
-  font-size: 2.8rem;
+  font-size: 2.2rem;
 }
 
 .tile-title {
@@ -457,6 +463,265 @@ button.card {
 
 .pulse {
   animation: pulse 0.6s infinite;
+}
+
+.card .or {
+  display: block;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  opacity: 0.6;
+  margin: 10px 0;
+}
+
+input[type='text'] {
+  width: 100%;
+}
+
+.error:empty {
+  display: none;
+}
+
+/* Paranoia coin */
+.coin {
+  font-size: 6rem;
+}
+
+.coin.spinning {
+  animation: flip 0.3s linear infinite;
+}
+
+@keyframes flip {
+  to { transform: rotateY(360deg); }
+}
+
+/* Countdown & stopwatch */
+.countdown {
+  font-size: 8rem;
+  font-weight: 900;
+  color: var(--accent);
+  animation: pulse 1s infinite;
+}
+
+.stopwatch {
+  font-size: clamp(4rem, 22vw, 7rem);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
+.ranking li {
+  display: flex;
+  justify-content: space-between;
+  font-variant-numeric: tabular-nums;
+}
+
+.ranking li:first-child {
+  color: var(--ok);
+}
+
+.ranking li:last-child {
+  color: var(--danger);
+}
+
+/* Spin the bottle */
+.bottle {
+  width: min(70vw, 300px);
+  aspect-ratio: 1;
+  color: var(--accent);
+  transition: transform 4s cubic-bezier(0.15, 0.6, 0.2, 1);
+}
+
+.bottle svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Wavelength */
+.spectrum {
+  position: relative;
+  height: 72px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(90deg, #3dd9ff, #b18cff 50%, #ff3d8b);
+}
+
+.spectrum .zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #14101f;
+}
+
+.zone-2 { background: rgb(255 255 255 / 0.35); }
+.zone-3 { background: rgb(255 255 255 / 0.6); }
+.zone-4 { background: #fff; }
+
+.spectrum .needle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  margin-left: -3px;
+  background: #14101f;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.spectrum-labels {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  gap: 12px;
+}
+
+.dial {
+  width: 100%;
+  height: 48px;
+  accent-color: var(--accent);
+}
+
+/* Fibbage */
+.options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.options li {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-weight: 700;
+}
+
+.options li b {
+  color: var(--accent);
+  font-size: 1.3rem;
+}
+
+.options li small {
+  display: block;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
+.options li.real {
+  background: var(--ok);
+  color: #14101f;
+}
+
+.options li.real b,
+.options li.real small {
+  color: #14101f;
+}
+
+/* Taboo */
+.team {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 14px 18px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.scoreboard {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.scoreboard span {
+  background: var(--surface);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.scoreboard .active {
+  background: var(--accent);
+  color: #14101f;
+}
+
+.timer-pill {
+  font-size: 2rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.taboo-card {
+  width: 100%;
+  background: #fff;
+  color: #14101f;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 8px 0 rgb(0 0 0 / 0.35);
+}
+
+.taboo-word {
+  background: var(--accent);
+  font-size: clamp(1.8rem, 9vw, 2.6rem);
+  font-weight: 900;
+  padding: 22px 16px;
+}
+
+.taboo-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 14px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.6;
+  color: #c4002f;
+}
+
+.btn.bad,
+.btn.ok {
+  padding: 12px 8px;
+  font-size: 1rem;
+}
+
+/* King's Cup */
+.playing-card {
+  width: 160px;
+  aspect-ratio: 5 / 7;
+  border-radius: 18px;
+  background: #fff;
+  color: #14101f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.6rem;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow: 0 8px 0 rgb(0 0 0 / 0.35);
+  animation: pop 0.3s ease-out;
+}
+
+.playing-card.red {
+  color: #d6002f;
+}
+
+.playing-card .suit {
+  font-size: 4.2rem;
 }
 
 /* Heads Up: full-screen landscape stage */

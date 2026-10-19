@@ -1,6 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { createDeck } from '../src/lib/deck.js';
 import { classifyTilt } from '../src/games/heads-up.js';
+import { rankByDistance } from '../src/games/stop-at-ten.js';
+import { wavelengthScore } from '../src/games/wavelength.js';
+import { buildOptions, normalize } from '../src/games/fibbage.js';
+import { splitTeams } from '../src/games/taboo.js';
+import { buildDeck, KINGS } from '../src/games/kings-cup.js';
 import { pickImposters, imposterCount, nextPlayer, cleanNames } from '../src/lib/players.js';
 
 describe('createDeck', () => {
@@ -76,6 +81,71 @@ describe('classifyTilt', () => {
     expect(classifyTilt(170, -25)).toBe('down');
     expect(classifyTilt(-165, 30)).toBe('down');
     expect(classifyTilt(0, 55)).toBe('between');
+  });
+});
+
+describe('stop at 10', () => {
+  it('ranks by distance to the target, either side', () => {
+    const ranked = rankByDistance([
+      { name: 'A', time: 11.5 }, { name: 'B', time: 9.9 }, { name: 'C', time: 8 }, { name: 'D', time: 10.3 },
+    ]);
+    expect(ranked.map((r) => r.name)).toEqual(['B', 'D', 'A', 'C']);
+  });
+});
+
+describe('wavelengthScore', () => {
+  it('scores 4/3/2/0 by distance', () => {
+    expect(wavelengthScore(50, 50)).toBe(4);
+    expect(wavelengthScore(50, 54)).toBe(4);
+    expect(wavelengthScore(50, 40)).toBe(3);
+    expect(wavelengthScore(50, 66)).toBe(2);
+    expect(wavelengthScore(50, 67)).toBe(0);
+  });
+});
+
+describe('fibbage buildOptions', () => {
+  it('includes the truth once and merges duplicate lies', () => {
+    const options = buildOptions('aglet', [
+      { author: 'Anna', text: 'Shoe nib' },
+      { author: 'Ben', text: 'shoe  nib!' },
+      { author: 'Cleo', text: 'Lace cap' },
+    ]);
+    expect(options).toHaveLength(3);
+    expect(options.filter((o) => o.real)).toEqual([{ text: 'aglet', authors: [], real: true }]);
+    expect(options.find((o) => normalize(o.text) === 'shoe nib').authors).toEqual(['Anna', 'Ben']);
+  });
+});
+
+describe('splitTeams', () => {
+  it('splits everyone into two near-equal teams', () => {
+    for (let n = 3; n <= 10; n++) {
+      const players = Array.from({ length: n }, (_, i) => `P${i}`);
+      const [a, b] = splitTeams(players);
+      expect(a.length - b.length).toBeGreaterThanOrEqual(0);
+      expect(a.length - b.length).toBeLessThanOrEqual(1);
+      expect([...a, ...b].sort()).toEqual([...players].sort());
+    }
+  });
+});
+
+describe("King's Cup deck", () => {
+  it('has 52 unique cards with 4 kings', () => {
+    const deck = buildDeck();
+    expect(new Set(deck.map((c) => c.rank + c.suit)).size).toBe(52);
+    expect(deck.filter((c) => c.rank === 'K')).toHaveLength(KINGS);
+  });
+});
+
+describe('content', () => {
+  it('has well-formed entries', async () => {
+    const taboo = (await import('../src/content/taboo.js')).default;
+    const fibbage = (await import('../src/content/fibbage.js')).default;
+    const pairs = (await import('../src/content/undercover.js')).default;
+    const spectra = (await import('../src/content/wavelength.js')).default;
+    const wyr = (await import('../src/content/would-you-rather.js')).default;
+    for (const card of taboo) expect(card).toHaveLength(6);
+    for (const f of fibbage) expect(f.q).toContain('___');
+    for (const p of [...pairs, ...spectra, ...wyr.mild, ...wyr.spicy]) expect(p).toHaveLength(2);
   });
 });
 

@@ -1,0 +1,31 @@
+// Whispered to the next player, who answers out loud with a name.
+export default {
+  mild: [
+    'Who here is the worst driver?', 'Who here would survive the longest in a horror movie?', 'Who here is secretly the most competitive?',
+    'Who here would you call if you got arrested?', 'Who here has the weirdest laugh?', 'Who here would be the worst roommate?',
+    'Who here is the biggest drama queen?', 'Who here would you trust with your phone unlocked?', 'Who here talks the most rubbish?',
+    'Who here is most likely to become famous?', 'Who here has the worst taste in music?', 'Who here would make the best parent?',
+    'Who here would make the worst parent?', 'Who here is the best dancer?', 'Who here is the most stubborn?',
+    'Who here would you take to a desert island?', 'Who here would eat you first on a desert island?', 'Who here dresses the best?',
+    'Who here is the biggest liar?', 'Who here would you want as a lawyer?', 'Who here is the most annoying when drunk?',
+    'Who here is the funniest?', 'Who here would win in a fight?', 'Who here spends the most time on their phone?',
+    'Who here is the worst cook?', 'Who here would you never lend money to?', 'Who here has the best laugh?',
+    'Who here would cry first at a sad movie?', 'Who here is the biggest party animal?', 'Who here would be the best spy?',
+    'Who here is most likely to forget your birthday?', 'Who here has the most secrets?', 'Who here would win a reality show?',
+    'Who here is the most chaotic?', 'Who here gives the best advice?', 'Who here would you swap lives with for a day?',
+    'Who here is the worst at keeping secrets?', 'Who here would be the worst boss?', 'Who here has changed the most since you met?',
+    'Who here do you know the least?',
+  ],
+  spicy: [
+    'Who here would you kiss?', 'Who here is the best kisser?', 'Who here has the highest body count?', 'Who here is the hottest?',
+    'Who here would you date if you had to?', 'Who here is the wildest in bed?', 'Who here would you never sleep with?',
+    'Who here has the dirtiest mind?', 'Who here sends the spiciest texts?', 'Who here would you want to see naked?',
+    'Who here has had the most embarrassing hookup?', 'Who here would be the worst in bed?', 'Who here is most likely to have a secret kink?',
+    'Who here would you have a one-night stand with?', 'Who here is the biggest flirt?', 'Who here would you marry?',
+    'Who here is the most likely to cheat?', 'Who here would you take to a hotel room tonight?', 'Who here has the best body?',
+    'Who here has the best bum?', 'Who here is most likely to have a sex tape?', 'Who here would you skinny dip with?',
+    'Who here looks the most innocent but isn\'t?', 'Who here would you let read your sexts?', 'Who here has had a crush on someone else here?',
+    'Who here would you want to spend the night with in a tent?', 'Who here is the most likely to hook up tonight?',
+    'Who here would you send a nude to?', 'Who here is the loudest in bed?', 'Who here would you want as a friend with benefits?',
+  ],
+};

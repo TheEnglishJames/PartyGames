@@ -9,8 +9,22 @@ import headsUp from './games/heads-up.js';
 import mostLikely from './games/most-likely.js';
 import truthOrDare from './games/truth-or-dare.js';
 import neverHaveI from './games/never-have-i.js';
+import wouldYouRather from './games/would-you-rather.js';
+import paranoia from './games/paranoia.js';
+import fiveSeconds from './games/five-seconds.js';
+import stopAtTen from './games/stop-at-ten.js';
+import spinTheBottle from './games/spin-the-bottle.js';
+import wavelength from './games/wavelength.js';
+import fibbage from './games/fibbage.js';
+import taboo from './games/taboo.js';
+import kingsCup from './games/kings-cup.js';
 
-const GAMES = [imposter, hotPotato, headsUp, mostLikely, truthOrDare, neverHaveI];
+const SECTIONS = [
+  { title: '🕵️ Bluff & Guess', games: [imposter, headsUp, taboo, wavelength, fibbage] },
+  { title: '💬 Talk & Confess', games: [mostLikely, neverHaveI, truthOrDare, wouldYouRather, paranoia] },
+  { title: '⚡ Action', games: [hotPotato, fiveSeconds, stopAtTen, spinTheBottle] },
+  { title: '🍺 Drinking', games: [kingsCup] },
+];
 
 const app = document.getElementById('app');
 let players = loadPlayers();
@@ -134,19 +148,22 @@ function showMenu() {
       el('button', { class: 'players-chip', type: 'button', onclick: () => openScreen(showSetup) },
         `👥 ${players.join(', ')}`, el('span', { class: 'muted' }, ' · edit'),
       ),
-      el('div', { class: 'tiles' },
-        GAMES.map((game) =>
-          el('button', {
-            class: 'tile',
-            type: 'button',
-            style: { '--accent': game.color },
-            onclick: () => openScreen(() => showRules(game)),
-          },
-            el('span', { class: 'tile-emoji' }, game.emoji),
-            el('span', { class: 'tile-title' }, game.title),
+      SECTIONS.map(({ title, games }) => [
+        el('h2', { class: 'section-title' }, title),
+        el('div', { class: 'tiles' },
+          games.map((game) =>
+            el('button', {
+              class: 'tile',
+              type: 'button',
+              style: { '--accent': game.color },
+              onclick: () => openScreen(() => showRules(game)),
+            },
+              el('span', { class: 'tile-emoji' }, game.emoji),
+              el('span', { class: 'tile-title' }, game.title),
+            ),
           ),
         ),
-      ),
+      ]),
       el('p', { class: 'muted tiny' },
         settings.drinking ? '🍺 Drinking on' : 'Drinking off', ' · ',
         settings.spicy ? '🌶 Spicy' : 'Mild',

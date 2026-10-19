@@ -9,7 +9,7 @@ export function spicyDeck(key, content, settings) {
 }
 
 // Shared shape for "read a card, everyone reacts, next card" games.
-export function makeCardGame({ id, title, emoji, color, rules, prefix, content, drink, noDrink }) {
+export function makeCardGame({ id, title, emoji, color, rules, prefix, content, drink, noDrink, render = (card) => card }) {
   return {
     id, title, emoji, color, rules,
     start(stage, { settings }) {
@@ -17,7 +17,7 @@ export function makeCardGame({ id, title, emoji, color, rules, prefix, content, 
       const show = () =>
         mount(stage,
           el('div', { class: 'center stack' },
-            el('div', { class: 'card' }, el('span', { class: 'label' }, prefix), deck.draw()),
+            el('div', { class: 'card' }, el('span', { class: 'label' }, prefix), render(deck.draw())),
             drinkNote(settings, drink, noDrink),
             button('Next card', show, 'primary'),
           ),
