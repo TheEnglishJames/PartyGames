@@ -1,0 +1,97 @@
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 40%, #3a1458, #14101f 70%);
+  background-size: 200% 200%;
+  animation: intro-bg 6s ease-in-out infinite alternate;
+  transition: opacity 0.5s, transform 0.5s;
+}
+.intro-out { opacity: 0; transform: scale(1.4); pointer-events: none; }
+@keyframes intro-bg { to { background-position: 100% 100%; filter: hue-rotate(60deg); } }
+
+.intro-float {
+  position: absolute;
+  left: var(--x);
+  bottom: -3rem;
+  font-size: var(--s);
+  opacity: 0.55;
+  animation: intro-rise var(--d) linear var(--delay) infinite;
+}
+@keyframes intro-rise {
+  to { transform: translateY(-115vh) rotate(540deg); }
+}
+
+.intro-stage { position: relative; width: min(90vw, 28rem); text-align: center; }
+.intro-text {
+  font-size: clamp(1.9rem, 9vw, 3rem);
+  line-height: 1.15;
+  background: linear-gradient(90deg, #ff3d8b, #ffd23d, #3dd6ff, #ff3d8b);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation-duration: 0.8s;
+  animation-fill-mode: both;
+}
+.intro-text.pop { animation-name: intro-pop, intro-shine; animation-duration: 0.7s, 2s; animation-timing-function: cubic-bezier(.2, 1.8, .4, 1), linear; }
+.intro-text.shake { animation-name: intro-slide, intro-shine; animation-duration: 0.5s, 2s; }
+.intro-text.spin-in { animation-name: intro-spin, intro-shine; animation-duration: 0.9s, 2s; }
+@keyframes intro-shine { to { background-position: 300% 0; } }
+@keyframes intro-pop { from { transform: scale(0) rotate(-25deg); } }
+@keyframes intro-slide { from { transform: translateX(120vw) skewX(-30deg); } 70% { transform: translateX(-8%) skewX(10deg); } }
+@keyframes intro-spin { from { transform: rotate(-720deg) scale(0); opacity: 0; } }
+
+.intro-load { display: grid; gap: 0.8rem; }
+.intro-label { font-size: 1.2rem; font-weight: 700; min-height: 3.2rem; }
+.intro-label.wobble { animation: intro-wobble 0.3s ease-in-out infinite; }
+@keyframes intro-wobble { 25% { transform: rotate(-3deg); } 75% { transform: rotate(3deg); } }
+.intro-bar { height: 1.4rem; border-radius: 1rem; background: #ffffff22; overflow: hidden; border: 2px solid #ffffff44; }
+.intro-fill {
+  height: 100%;
+  width: 0;
+  background: repeating-linear-gradient(45deg, #ff3d8b 0 12px, #ffd23d 12px 24px);
+  background-size: 34px 34px;
+  transition: width ease-out;
+  animation: intro-stripes 0.6s linear infinite;
+}
+@keyframes intro-stripes { to { background-position: 34px 0; } }
+.intro-pct { font-size: 2.6rem; font-weight: 900; display: inline-block; }
+.intro-pct.shake { animation: intro-jitter 0.12s linear infinite; color: #ff6b6b; }
+@keyframes intro-jitter { 25% { transform: translate(3px, -2px); } 75% { transform: translate(-3px, 2px); } }
+
+.intro-logo { animation: intro-slam 0.7s cubic-bezier(.2, 1.6, .4, 1) both; }
+.intro-logo h1 { font-size: clamp(2.2rem, 11vw, 3.4rem); text-shadow: 0 0 30px #ff3d8b; }
+.intro-ring { display: block; font-size: 5rem; animation: intro-ring 1.2s ease-in-out infinite; }
+@keyframes intro-slam { from { transform: scale(5); opacity: 0; } }
+@keyframes intro-ring { 50% { transform: scale(1.25) rotate(20deg); } }
+
+.intro-skip {
+  position: absolute;
+  right: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  background: #ffffff1a;
+  color: inherit;
+  border: 1px solid #ffffff44;
+  border-radius: 2rem;
+  padding: 0.6rem 1.1rem;
+  font: inherit;
+}
+
+/* Menu: tiles bounce in one after another. */
+.tile { animation: tile-in 0.5s cubic-bezier(.2, 1.4, .4, 1) both; }
+.tiles .tile:nth-child(2) { animation-delay: 0.06s; }
+.tiles .tile:nth-child(3) { animation-delay: 0.12s; }
+.tiles .tile:nth-child(4) { animation-delay: 0.18s; }
+.tiles .tile:nth-child(n+5) { animation-delay: 0.24s; }
+.tile:active { transform: scale(0.94) rotate(-1.5deg); }
+.tile-emoji { display: inline-block; }
+.tile:hover .tile-emoji { animation: intro-ring 0.8s ease-in-out infinite; }
+@keyframes tile-in { from { opacity: 0; transform: translateY(30px) scale(0.8) rotate(4deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .intro, .intro *, .tile { animation: none !important; }
+}

@@ -1,4 +1,5 @@
 import './style.css';
+import { playIntro } from './intro.js';
 import { el, button, mount } from './lib/ui.js';
 import { loadPlayers, savePlayers, loadSettings, saveSettings, loadSeen, markSeen } from './lib/storage.js';
 import { cleanNames, MIN_PLAYERS, MAX_PLAYERS } from './lib/players.js';
@@ -322,6 +323,8 @@ function startGame(game) {
 
 if (players.length >= MIN_PLAYERS) showMenu();
 else showSetup();
+
+playIntro();
 
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
