@@ -147,6 +147,19 @@ function showSetup() {
   );
 }
 
+// Drops the service worker and every cache, then reloads from the network.
+async function forceUpdate() {
+  try {
+    const regs = await navigator.serviceWorker?.getRegistrations();
+    await Promise.all((regs ?? []).map((r) => r.unregister()));
+    const keys = await caches?.keys();
+    await Promise.all((keys ?? []).map((k) => caches.delete(k)));
+  } catch { /* reload anyway */ }
+  const url = new URL(location.href);
+  url.searchParams.set('v', Date.now());
+  location.replace(url);
+}
+
 function showSettings() {
   runCleanup();
   const toggle = (key, label, hint) =>
@@ -171,6 +184,9 @@ function showSettings() {
       toggle('drinking', 'Drinking rules', 'Adds who-drinks-what to results. Off: points and dares instead'),
       toggle('spicy', 'Spicy mode', 'Adds 18+ cards: sex, embarrassment, exes. Off by default'),
       toggle('sound', 'Sound & vibration', 'Timers, buzzers and reveals'),
+      el('h2', { class: 'section-title' }, 'App version'),
+      el('p', { class: 'muted tiny' }, 'Something looks outdated? This wipes the offline cache and loads the newest version. Players and settings stay.'),
+      button('🔄 Reload latest version', forceUpdate),
     ),
   );
 }
