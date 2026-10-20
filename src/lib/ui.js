@@ -61,3 +61,18 @@ export async function keepAwake() {
     return () => {};
   }
 }
+
+// Emoji fireworks from the centre of an element; cleans itself up.
+export function burst(target, emojis = ['🎉', '✨', '💥', '🥂', '🔥']) {
+  const r = target.getBoundingClientRect();
+  const layer = el('div', { class: 'burst', style: { left: `${r.left + r.width / 2}px`, top: `${r.top + r.height / 2}px` } },
+    Array.from({ length: 8 }, (_, i) => {
+      const angle = (i / 8) * Math.PI * 2 + Math.random() * 0.5;
+      const dist = 50 + Math.random() * 40;
+      return el('span', {
+        style: { '--dx': `${Math.cos(angle) * dist}px`, '--dy': `${Math.sin(angle) * dist}px` },
+      }, emojis[i % emojis.length]);
+    }));
+  document.body.append(layer);
+  setTimeout(() => layer.remove(), 800);
+}

@@ -1,6 +1,6 @@
 // Offline support: serve from cache, refresh the cache in the background.
 // Bump the version to drop old caches after a big change.
-const CACHE = 'ptp-v4';
+const CACHE = 'ptp-v5';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((c) => c.addAll(['./', 'manifest.webmanifest'])));

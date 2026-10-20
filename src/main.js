@@ -1,6 +1,8 @@
 import './style.css';
 import { playIntro } from './intro.js';
-import { el, button, mount } from './lib/ui.js';
+import { el, button, mount, burst } from './lib/ui.js';
+import { sessionDeck } from './lib/deck.js';
+import { TAGLINES, SECTION_SUBS, GREETINGS, FOOTERS, STATUS } from './content/menu-quips.js';
 import { loadPlayers, savePlayers, loadSettings, saveSettings, loadSeen, markSeen } from './lib/storage.js';
 import { cleanNames, MIN_PLAYERS, MAX_PLAYERS } from './lib/players.js';
 import { unlockAudio, setSoundEnabled } from './lib/sound.js';
@@ -212,11 +214,13 @@ function installTip() {
 }
 
 const LONG_PRESS_MS = 450;
+const TAP_DELAY_MS = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 260;
 
 // Tap opens the game; press and hold shows its rules in a quick popup.
 function gameTile(game) {
   let timer = null;
   let longPressed = false;
+  let opening = false;
   let start = null;
   const cancel = () => { clearTimeout(timer); timer = null; };
 
@@ -238,13 +242,19 @@ function gameTile(game) {
     onpointerleave: cancel,
     onpointercancel: cancel,
     oncontextmenu: (e) => e.preventDefault(),
-    onclick: () => {
-      if (longPressed) longPressed = false;
-      else openScreen(() => showRules(game));
+    onclick: (e) => {
+      if (longPressed) { longPressed = false; return; }
+      if (opening) return;
+      opening = true;
+      const tile = e.currentTarget;
+      tile.classList.add('launching');
+      burst(tile);
+      setTimeout(() => openScreen(() => showRules(game)), TAP_DELAY_MS);
     },
   },
     el('span', { class: 'tile-emoji' }, game.emoji),
     el('span', { class: 'tile-title' }, game.title),
+    TAGLINES[game.id] && el('span', { class: 'tile-tag' }, TAGLINES[game.id]),
   );
 }
 
@@ -259,6 +269,7 @@ function showQuickInfo(game) {
   },
     el('div', { class: 'stack' },
       el('div', { class: 'quick-info-head' }, el('span', { class: 'tile-emoji' }, game.emoji), el('h2', {}, game.title)),
+      TAGLINES[game.id] && el('p', { class: 'quick-info-tag' }, TAGLINES[game.id]),
       el('p', {}, game.rules),
       el('div', { class: 'btn-row' },
         button('Close', () => dialog.close()),
@@ -270,14 +281,21 @@ function showQuickInfo(game) {
   dialog.showModal();
 }
 
+function greeting() {
+  const name = players[Math.floor(Math.random() * players.length)];
+  return sessionDeck('menu-greeting', GREETINGS).draw().replace('{name}', name);
+}
+
 function showMenu() {
   runCleanup();
+  const statusKey = `${settings.drinking ? 'drink' : 'sober'}-${settings.spicy ? 'spicy' : 'mild'}`;
   mount(app,
     el('section', { class: 'screen stack' },
       el('header', { class: 'menu-head' },
         el('h1', { class: 'logo small' }, 'A&S Wedding', el('br'), 'Games'),
         el('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Settings', onclick: () => openScreen(showSettings) }, '⚙'),
       ),
+      el('p', { class: 'greeting' }, greeting()),
       el('button', { class: 'players-chip', type: 'button', onclick: () => openScreen(showSetup) },
         el('span', { class: 'players-names' }, `👥 ${players.length} players: ${players.join(', ')}`),
         el('span', { class: 'players-edit' }, '✏️ Add or remove players'),
@@ -285,15 +303,13 @@ function showMenu() {
       settingsTip(),
       SECTIONS.map(({ title, games }) => [
         el('h2', { class: 'section-title' }, title),
+        SECTION_SUBS[title] && el('p', { class: 'section-sub' }, SECTION_SUBS[title]),
         el('div', { class: 'tiles' },
           games.map((game) => gameTile(game)),
         ),
       ]),
-      el('p', { class: 'muted tiny' }, 'Tip: press and hold a game for a quick explanation.'),
-      el('p', { class: 'muted tiny' },
-        settings.drinking ? '🍺 Drinking on' : 'Drinking off', ' · ',
-        settings.spicy ? '🌶 Spicy' : 'Mild',
-      ),
+      el('p', { class: 'muted tiny' }, sessionDeck('menu-footer', FOOTERS).draw()),
+      el('p', { class: 'muted tiny' }, STATUS[statusKey]),
     ),
   );
 }

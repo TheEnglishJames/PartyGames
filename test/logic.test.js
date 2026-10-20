@@ -202,6 +202,18 @@ describe('content', () => {
   });
 });
 
+describe('menu quips', () => {
+  it('has a tagline for every game and {name} in each greeting', async () => {
+    const { readdirSync } = await import('node:fs');
+    const { TAGLINES, GREETINGS } = await import('../src/content/menu-quips.js');
+    const ids = readdirSync(new URL('../src/games', import.meta.url))
+      .map((f) => f.replace('.js', ''))
+      .filter((id) => id !== 'card-game');
+    for (const id of ids) expect(TAGLINES[id], id).toBeTruthy();
+    for (const g of GREETINGS) expect(g).toContain('{name}');
+  });
+});
+
 describe('cleanNames', () => {
   it('trims, drops empties and duplicates', () => {
     expect(cleanNames([' Anna ', '', 'anna', 'Ben', '  '])).toEqual(['Anna', 'Ben']);
